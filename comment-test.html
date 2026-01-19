@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Comment Source</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific overrides for the comment source page */
+        .glass-card {
+            border-color: rgba(16, 185, 129, 0.2);
+            /* Green tint for differentiation */
+        }
+
+        .badge {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2" style="background: #10b981;"></div>
+    </div>
+
+    <!-- 
+      Microformats 2 (h-entry) are used here so Webmention receivers 
+      can parse the author, content, and date correctly.
+    -->
+    <main class="container h-entry">
+        <article class="glass-card">
+            <header class="article-header">
+                <div class="badge">Comment Source</div>
+                <h1 class="p-name">Test Review of Webmention Page</h1>
+
+                <div class="meta">
+                    <!-- Author Information -->
+                    <div class="p-author h-card">
+                        <img class="u-photo"
+                            src="https://ui-avatars.com/api/?name=Test+User&background=10b981&color=fff" alt="Test User"
+                            style="border-radius: 50%; width: 24px; vertical-align: middle; margin-right: 8px;">
+                        <span class="p-name">Test User</span>
+                        <!-- Hidden link for author URL if needed -->
+                        <a href="#" class="u-url" style="display:none;"></a>
+                    </div>
+
+                    <time class="dt-published date" datetime="2026-01-19T12:00:00+09:00">2026.01.19</time>
+                </div>
+            </header>
+
+            <div class="content e-content">
+                <p>Hello!</p>
+                <p>これはWebmentionの送受信をテストするための外部記事（シミュレーション）です。</p>
+
+                <p>以下のリンク先ページのデザインと機能がとても興味深いです。動的なコメント機能がうまく動作するか確認しています。</p>
+
+                <!-- The Link to the Target Page -->
+                <blockquote>
+                    Check out the <a href="https://highants.github.io/Webmention/" class="u-in-reply-to">Webmention Test
+                        Page</a>.
+                </blockquote>
+
+                <p>Webmentionは分散型のコメントシステムとして非常に魅力的ですね。</p>
+            </div>
+
+            <footer class="article-footer"
+                style="display: block; margin-top: 2rem; border-top: 1px dashed rgba(255,255,255,0.2);">
+                <h3>How to test:</h3>
+                <ol style="margin-left: 1.5rem; color: var(--text-secondary); line-height: 1.6;">
+                    <li>このページ (`comment-test.html`) をGitHub Pagesにプッシュして公開します。</li>
+                    <li>公開されたこのページのURL (例: <code>.../comment-test.html</code>) をコピーします。</li>
+                    <li><a href="https://webmention.io/tools" style="color: var(--accent);">Webmention.io Tools</a> や <a
+                            href="https://telegraph.p3k.io/" style="color: var(--accent);">Telegraph</a> などの送信ツールを開きます。
+                    </li>
+                    <li><strong>Source URL</strong> にこのページのURLを、<strong>Target URL</strong> に
+                        <code>https://highants.github.io/Webmention/</code> を入力して送信（Ping）します。</li>
+                    <li>メインページに戻り、コメントが表示されるか確認してください。</li>
+                </ol>
+            </footer>
+        </article>
+    </main>
+</body>
+
+</html>
