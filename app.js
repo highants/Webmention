@@ -8,23 +8,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Replace this with the actual target URL you want to fetch mentions for
     // For local testing, we often use a production URL that already has mentions, 
     // or we just simulate them.
-    const TARGET_URL = 'https://username.github.io/webmention'; 
+    const TARGET_URL = 'https://highants.github.io/webmention';
     const WEBMENTION_IO_TOKEN = null; // Optional: Add token if needed for private mentions
 
     // Fetch Webmentions
     async function fetchWebmentions() {
         try {
             const url = `https://webmention.io/api/mentions.jf2?target=${encodeURIComponent(TARGET_URL)}`;
-            
+
             const response = await fetch(url);
-            
+
             if (!response.ok) {
                 // If 404 or error (likely because user hasn't set up webmention.io yet), show demo data
                 throw new Error('Webmention API not configured or unreachable');
             }
 
             const data = await response.json();
-            
+
             if (data.children && data.children.length > 0) {
                 renderMentions(data.children);
             } else {
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const authorName = author.name || 'Anonymous';
         const authorPhoto = author.photo || 'https://ui-avatars.com/api/?name=' + authorName + '&background=random';
         const url = mention.url || '#';
-        
+
         const date = new Date(mention.published || mention['wm-received']).toLocaleDateString('ja-JP', {
             year: 'numeric',
             month: 'long',
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const content = mention.content ? (mention.content.text || mention.content.html || '') : '';
         // Simple truncation
         const displayText = content.length > 200 ? content.substring(0, 200) + '...' : content;
-        
+
         const entry = document.createElement('div');
         entry.className = 'wm-card';
         entry.innerHTML = `
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 content: { text: "テストコメントです。GitHub Pagesでも動的にコメントが表示されるのは素晴らしいですね。" }
             }
         ];
-        
+
         // Simulate network delay for realism
         setTimeout(() => {
             renderMentions(mockData);
@@ -123,18 +123,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Form Simulation
     const btn = document.querySelector('.btn-primary');
     const input = document.querySelector('input[type="url"]');
-    
+
     btn.addEventListener('click', () => {
-        if(!input.value) return;
-        
+        if (!input.value) return;
+
         btn.innerText = 'Sending...';
         btn.disabled = true;
-        
+
         setTimeout(() => {
             btn.innerText = 'Sent! (Check Webmention.io)';
             input.value = '';
             btn.disabled = false;
-            
+
             setTimeout(() => {
                 btn.innerText = 'Send Webmention';
             }, 3000);
