@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Replace this with the actual target URL you want to fetch mentions for
     // For local testing, we often use a production URL that already has mentions, 
     // or we just simulate them.
-    const TARGET_URL = 'https://highants.github.io/webmention';
+    const TARGET_URL = 'https://highants.github.io/Webmention';
     const WEBMENTION_IO_TOKEN = null; // Optional: Add token if needed for private mentions
 
     // Fetch Webmentions
