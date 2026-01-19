@@ -14,25 +14,63 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch Webmentions
     async function fetchWebmentions() {
         try {
-            const url = `https://webmention.io/api/mentions.jf2?target=${encodeURIComponent(TARGET_URL)}`;
+            // Webmention.io can be strict about trailing slashes, so we try to be robust
+            // If TARGET_URL has a trailing slash, we also want to try without, and vice versa.
+            // But realistically, we just query for the specific one defined.
 
-            const response = await fetch(url);
-
-            if (!response.ok) {
-                // If 404 or error (likely because user hasn't set up webmention.io yet), show demo data
-                throw new Error('Webmention API not configured or unreachable');
+            // To be safe, let's treat the current page as the source or use the configured one
+            const targets = [TARGET_URL];
+            if (TARGET_URL.endsWith('/')) {
+                targets.push(TARGET_URL.slice(0, -1));
+            } else {
+                targets.push(TARGET_URL + '/');
             }
 
-            const data = await response.json();
+            console.log('Fetching mentions for:', targets);
 
-            if (data.children && data.children.length > 0) {
-                renderMentions(data.children);
+            // Fetch all in parallel
+            const requests = targets.map(t =>
+                fetch(`https://webmention.io/api/mentions.jf2?target=${encodeURIComponent(t)}`)
+                    .then(r => r.json())
+                    .catch(e => ({ children: [] }))
+            );
+
+            const results = await Promise.all(requests);
+
+            // Merge results and deduplicate by wm-id
+            let allMentions = [];
+            const seenIds = new Set();
+
+            results.forEach(data => {
+                if (data.children) {
+                    data.children.forEach(m => {
+                        if (!seenIds.has(m['wm-id'])) {
+                            seenIds.add(m['wm-id']);
+                            allMentions.push(m);
+                        }
+                    });
+                }
+            });
+
+            // Sort by published date descending
+            allMentions.sort((a, b) => {
+                const dateA = new Date(a.published || a['wm-received']);
+                const dateB = new Date(b.published || b['wm-received']);
+                return dateB - dateA;
+            });
+
+            console.log('Total unique mentions found:', allMentions.length);
+
+            if (allMentions.length > 0) {
+                renderMentions(allMentions);
             } else {
                 // If API works but no mentions, show demo data for visual impression
+                console.log('No mentions found, showing demo data.');
                 renderMockMentions();
             }
         } catch (error) {
-            console.log('Falling back to demo mode:', error);
+            console.error('Error fetching webmentions:', error);
+            console.log('Falling back to demo mode');
             renderMockMentions();
         } finally {
             wmLoading.style.display = 'none';
