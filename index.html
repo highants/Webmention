@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webmention Test Page</title>
+    <meta name="description" content="A premium test page for Webmention comments on GitHub Pages.">
+    
+    <!-- Webmention Tags (Replace username with your actual webmention.io username) -->
+    <link rel="webmention" href="https://webmention.io/username.github.io/webmention" />
+    <link rel="pingback" href="https://webmention.io/username.github.io/xmlrpc" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <article class="glass-card">
+            <header class="article-header">
+                <div class="badge">Webmention Test</div>
+                <h1>Webmention Integration</h1>
+                <div class="meta">
+                    <span class="date">2026.01.19</span>
+                    <span class="author">By Tetsu</span>
+                </div>
+            </header>
+            
+            <div class="content">
+                <p>これはGitHub PagesでWebmentionを受け取るためのテストページです。</p>
+                <p>Webmentionは、他のサイトからこのページへのリンク（言及）を自動的に通知し、コメントとして表示する仕組みです。このデモでは、リッチなUIとWebmention.ioを利用したクライアントサイドのレンダリングを実装しています。</p>
+                
+                <div class="alert">
+                    <strong>Note:</strong> 実際にWebmentionを受け取るには、Webmention.ioへの登録とドメインの設定が必要です。
+                </div>
+            </div>
+
+            <section class="webmentions" id="webmentions">
+                <div class="wm-header">
+                    <h2>Comments & Mentions</h2>
+                    <span class="wm-count" id="wm-count">0 Mentions</span>
+                </div>
+
+                <div class="wm-loading" id="wm-loading">
+                    <div class="spinner"></div>
+                    <p>Loading mentions...</p>
+                </div>
+
+                <div class="wm-list" id="wm-list">
+                    <!-- Comments will be injected here via JavaScript -->
+                </div>
+
+                <!-- Simulation Form for Testing UI -->
+                <div class="wm-form-stub">
+                    <h3>Send a Webmention</h3>
+                    <p>このページにリンクした記事を書いたら、URLを入力して送信してください（Simulation）。</p>
+                    <div class="input-group">
+                        <input type="url" placeholder="https://your-site.com/post" />
+                        <button class="btn-primary">Send Webmention</button>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
